@@ -1,10 +1,16 @@
 import pandas as pd 
 import sklearn.neighbors as knn 
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score 
 mydata = pd.read_csv("heart.csv") 
 x=mydata[["age","sex","cp","trestbps","chol","fbs","restecg","thalach","exang","oldpeak","slope","ca","thal"]]
 y=mydata[["target"]] 
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2) 
+print(x_test)
 model=knn.KNeighborsClassifier(n_neighbors=5) 
-model.fit(x,y)
+model.fit(x_train,y_train) 
+y_pred = model.predict(x_test) 
+print("Accuracy score = ", accuracy_score(y_test, y_pred))
 getAge=int(input("Enter the age of the patient: "))
 getSex=int(input("Enter sex: ")) 
 getcp=int(input("Enter cp: ")) 
